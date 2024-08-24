@@ -1,0 +1,49 @@
+The code you've provided is written in **PySpark**, which is the Python API for Apache Spark, used for big data processing.
+
+Here’s what each line of the code does:
+
+1. **`tran_rdd = sc.textFile("dbfs:/FileStore/transactions.csv")`**  
+   This line reads a text file (`transactions.csv`) from the Databricks File System (DBFS) into an RDD (Resilient Distributed Dataset) called `tran_rdd`. The `sc.textFile()` function is a SparkContext method that reads text files and returns an RDD where each element is a line from the file.
+
+2. **`tran_rdd1 = tran_rdd.first()`**  
+   This line retrieves the first element of the RDD `tran_rdd` and stores it in the variable `tran_rdd1`. Typically, the first line in a CSV file is the header (column names).
+
+3. **`tran_rdd = tran_rdd.filter(lambda a: a != tran_rdd1)`**  
+   This line filters the RDD `tran_rdd` to remove the first element (header) that was stored in `tran_rdd1`. The `filter` function keeps only those elements that do not equal the header.
+
+4. **`tran_rdd.collect()`**  
+   This line collects the elements of the filtered RDD `tran_rdd` into a list and returns it to the driver program. The `collect()` action is typically used to retrieve the entire RDD into a Python list, but it can be expensive for large datasets.
+
+In summary, this code reads a CSV file into an RDD, removes the header, and collects the remaining data into a list.
+
+The code you've provided is a typical workflow in **PySpark** for processing data stored in a CSV file using an RDD (Resilient Distributed Dataset). Here's a detailed explanation of each step:
+
+### Code Breakdown:
+1. **`tran_rdd = sc.textFile("dbfs:/FileStore/transactions.csv")`**
+   - **What it does:** 
+     - This line reads the `transactions.csv` file from the Databricks File System (DBFS) into an RDD called `tran_rdd`.
+     - The `sc.textFile()` function creates an RDD where each element is a line from the file.
+  
+2. **`tran_rdd1 = tran_rdd.first()`**
+   - **What it does:**
+     - This line retrieves the first element of the RDD `tran_rdd` and stores it in the variable `tran_rdd1`.
+     - Usually, the first line in a CSV file is the header row containing column names.
+  
+3. **`tran_rdd = tran_rdd.filter(lambda a: a != tran_rdd1)`**
+   - **What it does:**
+     - This line filters the RDD `tran_rdd` to remove the first element, which is the header row.
+     - The `filter()` function takes a lambda function as an argument, which returns `True` for lines that should be kept and `False` for lines that should be removed. In this case, it keeps all lines except the header.
+  
+4. **`tran_rdd.collect()`**
+   - **What it does:**
+     - This line collects the elements of the filtered RDD `tran_rdd` and returns them as a list to the driver program.
+     - The `collect()` action brings all the elements of the RDD to the driver node, which can be useful for small datasets but may cause issues with large datasets due to memory constraints.
+
+### Summary:
+- **Purpose of the Code:** 
+  - The code reads a CSV file into an RDD, removes the header row (usually containing column names), and then collects the remaining data into a Python list.
+
+  
+  
+- **Use Case:** 
+  - This kind of code is typically used in data preprocessing when you want to
